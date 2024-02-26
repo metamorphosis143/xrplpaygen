@@ -74,7 +74,7 @@ def main():
             try:
                 url = generate_payload(payload)
             except Exception as e:
-                print(f"Error: {e} Unable to generate sign URL. Try again.")
+                print(f"Error: {e}")
                 continue
             print(f"Sign URL: {url}")
             os.system(f"termux-open-url {url}")
