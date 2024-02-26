@@ -68,8 +68,8 @@ def main():
             input(":PRESS ENTER TO GENERATE PAYLOAD:")
             try:
                 url = generate_payload(payload)
-            except Exception:
-                print("Error: Unable to generate sign URL. Try again.")
+            except Exception as e:
+                print("Error: {e} Unable to generate sign URL. Try again.")
                 continue
             print(f"Sign URL: {url}")
             os.system(f"termux-open-url {url}")
