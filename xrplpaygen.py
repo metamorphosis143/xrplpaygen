@@ -1,9 +1,8 @@
-
 import requests
 import os
 
 def get_currency(wallet_address):
-    return requests.get(f"https://api.xrpscan.com/api/v1/account/{wallet_address}/obligations?origin=https://xrpl.services").json()['currency']
+    return requests.get(f"https://api.xrpscan.com/api/v1/account/{wallet_address}/obligations?origin=https://xrpl.services").json()[0]["currency"]
 
 def get_payload(payload_url):
     args_dict = {}
@@ -11,9 +10,8 @@ def get_payload(payload_url):
     for arg in args:
         arg_name, arg_value = arg.split("=", 1)
         args_dict[arg_name] = arg_value
-
-    if "issuer" not in args_dict:
-        return None
+    
+    if not "currency" in args_dict: return
     args_dict["currency"] = get_currency(args_dict["issuer"])
 
     payload = {
@@ -61,10 +59,7 @@ def main():
 
     try:
         payload = get_payload(payload_url)
-        if not payload:
-            print("Error: 'issuer' is a required parameter in the payload URL.")
-            return
-    except Exception as e:
+    except Exception:
         print(f"Error: Invalid Payload URL: {payload_url}")
         return
 
